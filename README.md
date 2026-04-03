@@ -4,27 +4,59 @@
 
 ## 1) Hướng dẫn cho người dùng (không IT)
 
-### 1.1 Chuẩn bị trước khi dùng
+### 1.1 Tải file về máy
 
-1. Chuẩn bị 1 thư mục làm việc (ví dụ `PortReportManager/`).
-2. Đặt các file sau vào cùng thư mục:
-   - File chạy ứng dụng (ví dụ `uyen-bcsl2.exe` trên Windows, hoặc `uyen-bcsl2` trên Linux/macOS).
-   - `data.xlsx` (file dữ liệu).
+#### Tải file `.exe` (ứng dụng)
+
+1. Truy cập trang **Releases** của repo: [github.com/lai-2/uyen-bcsl-public/releases](https://github.com/lai-2/uyen-bcsl-public/releases)
+  ![img](./img/pic-01.png)
+2. Chọn bản mới nhất (trên cùng).
+3. Kéo xuống phần **Assets** → bấm vào `GMD-BCSL.exe` để tải về.
+  ![img](./img/pic-02.png)
+
+> **Lưu ý Windows:** Lần đầu chạy file `.exe` có thể xuất hiện cảnh báo SmartScreen — bấm **"More info"** → **"Run anyway"** để tiếp tục.
+
+#### Tải file `.pbix` (báo cáo Power BI)
+
+1. Truy cập trang chính của repo: [github.com/lai-2/uyen-bcsl-public](https://github.com/lai-2/uyen-bcsl-public)
+2. Bấm vào file `bao-cao-san-luong.pbix` (hoặc file Power BI muốn tải).
+  ![img](./img/pic-03.png)
+3. Bấm nút **"Download raw file"** (biểu tượng tải xuống) để tải về.
+  ![img](./img/pic-04.png)
+
+---
+
+### 1.2 Chuẩn bị trước khi dùng
+
+1. Chuẩn bị 1 thư mục làm việc (ví dụ `GMD-BCSL/`).
+2. Đặt các file sau vào **cùng thư mục**:
+   - `GMD-BCSL.exe` (file vừa tải ở bước trên).
+   - `data.xlsx` (file dữ liệu — nhận từ người quản lý).
    - (Tuỳ chọn) `config.toml` để đổi đường dẫn Excel/log.
+
+   Cấu trúc thư mục mẫu:
+   ```
+   GMD-BCSL/
+   ├── GMD-BCSL.exe
+   ├── data.xlsx
+   └── config.toml   ← tuỳ chọn
+   ```
+
+   ![img](./img/pic-05.png)
 3. Khuyến nghị: sao lưu `data.xlsx` trước khi nhập liệu.
 
-### 1.2 Mở ứng dụng
+### 1.3 Mở ứng dụng
 
-- Mở file chạy ứng dụng.
+- Double-click vào `GMD-BCSL.exe` để chạy.
 - Nếu Excel lỗi cấu trúc/sai đường dẫn, ứng dụng sẽ không vào được màn hình chính.
 
-### 1.3 Nguyên tắc “Save”
+### 1.4 Nguyên tắc “Save”
 
 - Mọi thao tác thêm/sửa/xoá **chưa** ghi vào Excel cho tới khi bấm `Save All`.
 - Khi có thay đổi, thanh trên cùng sẽ hiện trạng thái “Unsaved changes”.
 - Mỗi tab có nút `↩ Discard All`: bỏ toàn bộ thay đổi chưa lưu của tab đó và tải lại từ Excel.
 
-### 1.4 Các tab và cách dùng
+### 1.5 Các tab và cách dùng
 
 #### A. Tab `Port Reports` (nhập liệu chính)
 
@@ -71,12 +103,12 @@ Bộ lọc:
 - Cột `Province` là tuỳ chọn.
 - `Created At`/`Expired At` chấp nhận định dạng `yyyy-mm-dd` hoặc `yyyy-mm`.
 
-### 1.5 Xoá dữ liệu (Delete)
+### 1.6 Xoá dữ liệu (Delete)
 
 - Chọn 1 dòng trong bảng và bấm `Delete`.
 - Dòng sẽ được “đánh dấu xoá” (chưa xoá thật trong Excel) cho tới khi bấm `Save All`.
 
-### 1.6 Phím tắt (tổng hợp từ source code)
+### 1.7 Phím tắt (tổng hợp từ source code)
 
 **Áp dụng trong tab `Port Reports`:**
 - `Ctrl+F`: đưa con trỏ vào ô `Search`.
