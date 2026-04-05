@@ -31,6 +31,7 @@
 1. Chuẩn bị 1 thư mục làm việc (ví dụ `GMD-BCSL/`).
 2. Đặt các file sau vào **cùng thư mục**:
    - `GMD-BCSL.exe` (file vừa tải ở bước trên).
+   - `bao-cao-san-luong.pbix` (file pbix tải ở bước trên).
    - `data.xlsx` (file dữ liệu — nhận từ người quản lý).
    - (Tuỳ chọn) `config.toml` để đổi đường dẫn Excel/log.
 
@@ -38,6 +39,7 @@
    ```
    GMD-BCSL/
    ├── GMD-BCSL.exe
+   ├── bao-cao-san-luong.pbix
    ├── data.xlsx
    └── config.toml   ← tuỳ chọn
    ```
@@ -64,7 +66,8 @@ Bạn sẽ nhập các cột:
 - `Port` (cảng) – chọn từ danh sách
 - `Reporter` (đơn vị báo cáo) – chọn từ danh sách
 - `Report Month` – nhập theo `yyyy-mm` (ví dụ `2026-03`)
-- `Value` – số TEU (chỉ nhập số; có thể dùng dấu phẩy ngăn cách như `12,345`)
+- `Actual TEU` – sản lượng thực tế (chỉ nhập số; có thể dùng dấu phẩy ngăn cách như `12,345`)
+- `Plan TEU` – chỉ tiêu KPI của công ty cho cảng (có thể để trống; nếu nhập thì phải là số)
 
 Ghi chú:
 - `Group` và `Parent Group` là **tự động** (không sửa trực tiếp). Khi đổi `Port` hoặc `Report Month` thì nhóm sẽ cập nhật theo dữ liệu quan hệ có hiệu lực tại thời điểm tháng đó.
@@ -74,7 +77,8 @@ Ghi chú:
 Các nút trên thanh công cụ:
 - `+ Add Row`: thêm 1 dòng trống (mặc định tháng = tháng trước).
 - `++ Add Multiples`: thêm nhiều dòng cho **tháng trước** (ưu tiên reporter tên `VPA`, nếu không có sẽ lấy reporter đầu tiên).
-  - Các dòng thêm nhanh có thể có `Value = 0`; các dòng `Value <= 0` sẽ **không được ghi** xuống Excel khi bấm `Save All` (bạn cần nhập giá trị > 0 nếu muốn lưu).
+  - Nếu đang **lọc theo Parent Group**, nút này **chỉ thêm các cảng thuộc Parent Group đó** (lọc theo quan hệ có hiệu lực tại tháng trước). Nếu không lọc thì thêm tất cả cảng đang hoạt động.
+  - Các dòng thêm nhanh có thể có `Actual TEU = 0`; các dòng `Actual TEU <= 0` sẽ **không được ghi** xuống Excel khi bấm `Save All` (bạn cần nhập giá trị > 0 nếu muốn lưu).
 - `↩ Discard All`: bỏ thay đổi chưa lưu của tab.
 - `Search`: lọc theo chữ (nhấn Enter ở ô Search để chạy lọc).
 
@@ -82,21 +86,16 @@ Bộ lọc:
 - Parent Group → Group → Port (lọc dạng “chọn dần”).
 - From/To (nhập `yyyy-mm`, nhấn Enter để áp dụng).
 
-#### B. Tab `Region Reports`
+> **Mẹo dùng `++ Add Multiples` hiệu quả:**
+> Chọn **Parent Group** ở bộ lọc trước khi bấm `++ Add Multiples` — hệ thống sẽ chỉ tạo dòng cho các cảng thuộc khu vực đó, giúp tránh thêm nhầm cảng không liên quan.
 
-- Quản lý báo cáo theo Region (Group) theo tháng.
-- `Region` trên toolbar dùng để lọc nhanh; bấm `Reset` để bỏ lọc.
-- `Month` nhập theo `yyyy-mm`.
-- `Plan TEU`, `Real TEU` có thể để trống; nếu nhập thì phải là số.
-- `++ Add Multiples`: tạo nhanh dữ liệu cho tháng trước (một số region đang active).
-
-#### C. Tab `Groups`
+#### B. Tab `Groups`
 
 - Quản lý danh sách Group.
 - Cột `Region` là tuỳ chọn (chọn 1 group làm region cha).
 - `Created At`/`Expired At` chấp nhận định dạng `yyyy-mm-dd` hoặc `yyyy-mm` (để trống `Expired At` nếu chưa hết hiệu lực).
 
-#### D. Tab `Ports`
+#### C. Tab `Ports`
 
 - Quản lý danh sách Port.
 - Cột `Group` là tuỳ chọn (gán port vào group).
@@ -122,17 +121,17 @@ Bộ lọc:
 - `Delete`: đánh dấu xoá dòng đang chọn.
 - `Ctrl+C`: copy dòng đang chọn (lưu vào bộ nhớ tạm của app).
 - `Ctrl+V`: paste (tạo 1 dòng mới giống dòng đã copy và chèn xuống ngay dưới dòng đang chọn).
-- `Ctrl+D`: Fill down (lấy `Value` của dòng phía trên xuống dòng hiện tại).
+- `Ctrl+D`: Fill down (lấy `Actual TEU` của dòng phía trên xuống dòng hiện tại).
 - `Ctrl+Shift+D`: Duplicate (nhân đôi dòng đang chọn và chèn xuống ngay dưới).
-- Khi đang sửa ô số `Value`: dùng `Up/Down` để lưu ô và nhảy lên/xuống dòng kế tiếp cùng cột.
+- Khi đang sửa ô số (`Actual TEU`, `Plan TEU`): dùng `Up/Down` để lưu ô và nhảy lên/xuống dòng kế tiếp cùng cột.
+- `Ctrl+V` khi đang ở cột `Actual TEU` hoặc `Plan TEU`: paste nhiều giá trị cùng lúc xuống các dòng phía dưới (copy từ Excel rồi paste thẳng vào đúng cột cần điền).
 
-**Trong các bảng CRUD (`Groups`, `Ports`, `Region Reports`):**
+**Trong các bảng CRUD (`Groups`, `Ports`):**
 - `Enter`: sửa ô đang chọn (cột chọn bằng `Left/Right`).
 - `Double click`: sửa đúng ô đang bấm.
 - `Tab` / `Shift+Tab`: lưu và chuyển ô kế/trước.
 - `Esc`: huỷ sửa ô.
 - `Delete`: đánh dấu xoá dòng.
-- Khi đang sửa ô số (`Plan TEU`, `Real TEU`…): `Up/Down` để lưu ô và nhảy dòng kế tiếp cùng cột.
 
 ## 2) Hướng dẫn cho IT (test / run / build)
 
@@ -201,6 +200,7 @@ Log mặc định ghi tại `./logs/app.log` (hoặc theo `log_path` trong `conf
 
 - Lỗi `ModuleNotFoundError: tkinter`: cài Tkinter (ví dụ Ubuntu/Debian: `sudo apt install python3-tk`).
 - Không thấy dữ liệu: kiểm tra `excel_path` và tên sheet trong `data.xlsx` (phải có: `groups`, `ports`, `reporters`, `relationship`, `port_reports`, `region_reports`, `provinces`).
+  > Sheet `region_reports` vẫn cần tồn tại trong file Excel (dùng để lưu dữ liệu), dù tab Region Reports đã bị ẩn khỏi giao diện.
 
 **Linux: Lỗi `cannot open display` hoặc không hiển thị cửa sổ**
 - Đảm bảo đang chạy trong môi trường desktop (X11/Wayland), không phải SSH thuần.
