@@ -76,18 +76,26 @@ Ghi chú:
 
 Các nút trên thanh công cụ:
 - `+ Add Row`: thêm 1 dòng trống (mặc định tháng = tháng trước).
-- `++ Add Multiples`: thêm nhiều dòng cho **tháng trước** (ưu tiên reporter tên `VPA`, nếu không có sẽ lấy reporter đầu tiên).
-  - Nếu đang **lọc theo Parent Group**, nút này **chỉ thêm các cảng thuộc Parent Group đó** (lọc theo quan hệ có hiệu lực tại tháng trước). Nếu không lọc thì thêm tất cả cảng đang hoạt động.
-  - Các dòng thêm nhanh có thể có `Actual TEU = 0`; các dòng `Actual TEU <= 0` sẽ **không được ghi** xuống Excel khi bấm `Save All` (bạn cần nhập giá trị > 0 nếu muốn lưu).
+- `++ Add Multiples` + checkbox **`Cả năm`**: thêm nhanh nhiều dòng. Hoạt động theo 2 chế độ tuỳ checkbox:
+
+  **Checkbox chưa tích** (chế độ thường):
+  - Thêm dòng cho **tháng trước**, nguồn báo cáo mặc định là `VPA` (nếu không có thì lấy reporter đầu tiên).
+  - Nếu đang lọc theo Parent Group thì chỉ thêm cảng thuộc Parent Group đó; không lọc thì thêm tất cả cảng đang hoạt động.
+
+  **Checkbox đã tích ☑ Cả năm**:
+  - Thêm **12 dòng cho mỗi cảng**, tương ứng tháng 1–12 của **năm hiện tại**.
+  - Nguồn báo cáo mặc định là reporter có tên chứa `"nội bộ"` (không phân biệt hoa thường); nếu không có thì lấy reporter có độ ưu tiên thấp nhất.
+  - Nếu đang lọc theo Parent Group thì chỉ thêm cảng thuộc Parent Group đó; không lọc thì thêm tất cả cảng.
+
+  **Áp dụng cho cả 2 chế độ:**
+  - Bản ghi đã tồn tại (trùng `Port + Reporter + Tháng`) sẽ **không bị thêm lại**.
+  - Các dòng thêm nhanh có thể có `Actual TEU = 0`; các dòng `Actual TEU <= 0` sẽ **không được ghi** xuống Excel khi bấm `Save All` (cần nhập giá trị > 0 nếu muốn lưu).
 - `↩ Discard All`: bỏ thay đổi chưa lưu của tab.
 - `Search`: lọc theo chữ (nhấn Enter ở ô Search để chạy lọc).
 
 Bộ lọc:
 - Parent Group → Group → Port (lọc dạng “chọn dần”).
 - From/To (nhập `yyyy-mm`, nhấn Enter để áp dụng).
-
-> **Mẹo dùng `++ Add Multiples` hiệu quả:**
-> Chọn **Parent Group** ở bộ lọc trước khi bấm `++ Add Multiples` — hệ thống sẽ chỉ tạo dòng cho các cảng thuộc khu vực đó, giúp tránh thêm nhầm cảng không liên quan.
 
 #### B. Tab `Groups`
 
@@ -132,6 +140,7 @@ Bộ lọc:
 - `Tab` / `Shift+Tab`: lưu và chuyển ô kế/trước.
 - `Esc`: huỷ sửa ô.
 - `Delete`: đánh dấu xoá dòng.
+- Khi đang sửa ô số: `Up/Down` để lưu ô và nhảy dòng kế tiếp cùng cột.
 
 ## 2) Hướng dẫn cho IT (test / run / build)
 
@@ -199,8 +208,7 @@ Log mặc định ghi tại `./logs/app.log` (hoặc theo `log_path` trong `conf
 ## 4) Troubleshooting
 
 - Lỗi `ModuleNotFoundError: tkinter`: cài Tkinter (ví dụ Ubuntu/Debian: `sudo apt install python3-tk`).
-- Không thấy dữ liệu: kiểm tra `excel_path` và tên sheet trong `data.xlsx` (phải có: `groups`, `ports`, `reporters`, `relationship`, `port_reports`, `region_reports`, `provinces`).
-  > Sheet `region_reports` vẫn cần tồn tại trong file Excel (dùng để lưu dữ liệu), dù tab Region Reports đã bị ẩn khỏi giao diện.
+- Không thấy dữ liệu: kiểm tra `excel_path` và tên sheet trong `data.xlsx` (phải có: `groups`, `ports`, `reporters`, `relationship`, `port_reports`, `provinces`).
 
 **Linux: Lỗi `cannot open display` hoặc không hiển thị cửa sổ**
 - Đảm bảo đang chạy trong môi trường desktop (X11/Wayland), không phải SSH thuần.
